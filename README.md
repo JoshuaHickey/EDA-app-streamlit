@@ -3,4 +3,8 @@ quick simple data analysis tool to work with new datasets.
 
 ## Usage
 To run locally:
-`streamlit run MyApp.py`
+Install requirements: `pip install -r requirements.txt`
+
+Run app: `streamlit run MyApp.py`
+
+
