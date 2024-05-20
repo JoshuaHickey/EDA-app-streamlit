@@ -5,8 +5,10 @@ import matplotlib.pyplot as plt
 import altair as alt
 from sklearn.decomposition import PCA
 from sklearn.ensemble import IsolationForest
+import chardet
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
+
 
 # Set page title and favicon
 st.set_page_config(
@@ -84,7 +86,18 @@ st.title("Exploratory Data Analysis App")
 file = st.file_uploader("Pick a csv file")
 
 if file is not None:
-    df = pd.read_csv(file)
+    # Read the uploaded file content to detect encoding
+    raw_data = file.read()
+    if raw_data is not None:
+        result = chardet.detect(raw_data)
+        detected_encoding = result['encoding']
+        st.write(f"Detected encoding: {detected_encoding}")
+        # Use StringIO to read the content into pandas
+        from io import StringIO
+        string_data = StringIO(raw_data.decode(detected_encoding))
+        
+    # Read the CSV into a pandas DataFrame
+    df = pd.read_csv(string_data)
 
     # Set up initial session state
     if 'graph_count' not in st.session_state:
