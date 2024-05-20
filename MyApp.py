@@ -6,6 +6,7 @@ import altair as alt
 from sklearn.decomposition import PCA
 from sklearn.ensemble import IsolationForest
 import chardet
+from io import StringIO
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
@@ -91,11 +92,9 @@ if file is not None:
     if raw_data is not None:
         result = chardet.detect(raw_data)
         detected_encoding = result['encoding']
-        st.write(f"Detected encoding: {detected_encoding}")
         # Use StringIO to read the content into pandas
-        from io import StringIO
         string_data = StringIO(raw_data.decode(detected_encoding))
-        
+    
     # Read the CSV into a pandas DataFrame
     df = pd.read_csv(string_data)
 
